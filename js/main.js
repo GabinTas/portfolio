@@ -1,11 +1,3 @@
-// ROUTEUR qui traite les changements d'url.
-const route = (event) => {
-  event = event || window.event;
-  event.preventDefault();
-  window.history.pushState({}, "", event.target.href);
-  handleLocation();
-};
-
 // Objet contenant les différentes routes
 const routes = {
   404: "/page/404.html",
@@ -27,8 +19,12 @@ const handleLocation = async () => {
   document.getElementById("main-page").innerHTML = html;
 };
 
-window.onpopstate = handleLocation;
-window.route = route;
-
 window.addEventListener("hashchange", handleLocation);
 handleLocation();
+
+// Lien CONTACT : on défile jusqu'au footer sans toucher au hash,
+// pour que le routeur ne le prenne pas pour une page.
+document.querySelector('a[href="#contact"]').addEventListener("click", (event) => {
+  event.preventDefault();
+  document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
+});
